@@ -2,6 +2,9 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { motion } from 'framer-motion';
+import AuroraBackground from '@/components/AuroraBackground';
+import GradientText from '@/components/GradientText';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -36,8 +39,17 @@ export default function LoginPage() {
 
   return (
     <main className="login-screen">
-      <form className="login-card" onSubmit={handleSubmit}>
-        <h1>Dashboard de Consumo de Álcool</h1>
+      <AuroraBackground />
+      <motion.form
+        className="login-card"
+        onSubmit={handleSubmit}
+        initial={{ opacity: 0, y: 30, scale: 0.96 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+      >
+        <h1>
+          <GradientText>Dashboard de Consumo de Álcool</GradientText>
+        </h1>
         <p className="subtitle">Faça login para continuar</p>
 
         <label htmlFor="username">Usuário</label>
@@ -64,7 +76,7 @@ export default function LoginPage() {
           {loading ? 'Entrando...' : 'Entrar'}
         </button>
         <p className="error-msg">{error}</p>
-      </form>
+      </motion.form>
     </main>
   );
 }

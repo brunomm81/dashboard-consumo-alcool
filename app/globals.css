@@ -21,8 +21,102 @@ html, body {
   min-height: 100vh;
 }
 
+/* ===================================================================
+   ANIMAÇÕES / EFEITOS (estilo React Bits)
+   =================================================================== */
+
+/* GradientText */
+.gradient-text {
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  background-size: 300% 100%;
+  animation-name: gradient-shift;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* SpotlightCard */
+.spotlight-card {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.25s ease, border-color 0.25s ease;
+}
+.spotlight-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent);
+}
+.spotlight-card__glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+  z-index: 0;
+}
+.spotlight-card > *:not(.spotlight-card__glow) { position: relative; z-index: 1; }
+
+/* AuroraBackground */
+.aurora-bg {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+  pointer-events: none;
+}
+.aurora-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.45;
+  will-change: transform;
+}
+.aurora-blob--1 {
+  width: 460px; height: 460px;
+  background: #6c8dff;
+  top: -120px; left: -80px;
+  animation: aurora-move-1 16s ease-in-out infinite;
+}
+.aurora-blob--2 {
+  width: 400px; height: 400px;
+  background: #35d0ba;
+  bottom: -140px; right: -60px;
+  animation: aurora-move-2 20s ease-in-out infinite;
+}
+.aurora-blob--3 {
+  width: 360px; height: 360px;
+  background: #a78bfa;
+  top: 30%; left: 55%;
+  animation: aurora-move-3 24s ease-in-out infinite;
+}
+
+@keyframes aurora-move-1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(120px, 80px) scale(1.15); }
+}
+@keyframes aurora-move-2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-100px, -60px) scale(1.1); }
+}
+@keyframes aurora-move-3 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-80px, 60px) scale(0.9); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gradient-text,
+  .aurora-blob { animation: none; }
+}
+
 /* LOGIN */
 .login-screen {
+  position: relative;
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -31,7 +125,10 @@ html, body {
 }
 
 .login-card {
-  background: var(--panel);
+  position: relative;
+  z-index: 1;
+  background: rgba(26, 34, 51, 0.85);
+  backdrop-filter: blur(8px);
   border: 1px solid var(--border);
   border-radius: 14px;
   padding: 40px;
