@@ -11,6 +11,7 @@ import {
   Legend
 } from 'chart.js';
 import { Bar, Doughnut } from 'react-chartjs-2';
+import { useTheme } from '@/components/ThemeProvider';
 
 ChartJS.register(
   CategoryScale,
@@ -24,20 +25,30 @@ ChartJS.register(
 
 const PALETTE = ['#6c8dff', '#35d0ba', '#ffb84c', '#ff6b6b', '#a78bfa'];
 
-function baseOptions(indexAxis) {
+// Cores dos textos/grades dos gráficos por tema (Chart.js não lê variáveis
+// CSS diretamente, então espelhamos aqui os tons de --text-dim / --border).
+const CHART_COLORS = {
+  dark: { text: '#e7ecf5', tick: '#9aa7bd', grid: '#2c374d' },
+  light: { text: '#1a2233', tick: '#5b6b85', grid: '#dde3ef' }
+};
+
+function baseOptions(indexAxis, colors) {
   return {
     indexAxis,
     responsive: true,
     maintainAspectRatio: false,
-    plugins: { legend: { labels: { color: '#e7ecf5' } } },
+    plugins: { legend: { labels: { color: colors.text } } },
     scales: {
-      x: { ticks: { color: '#9aa7bd' }, grid: { color: '#2c374d' } },
-      y: { ticks: { color: '#9aa7bd' }, grid: { color: '#2c374d' } }
+      x: { ticks: { color: colors.tick }, grid: { color: colors.grid } },
+      y: { ticks: { color: colors.tick }, grid: { color: colors.grid } }
     }
   };
 }
 
 export default function Charts({ data }) {
+  const { theme } = useTheme();
+  const colors = CHART_COLORS[theme] || CHART_COLORS.dark;
+
   const sortedByTotal = [...data].sort((a, b) => b.total - a.total);
   const top10 = sortedByTotal.slice(0, 10);
 
@@ -102,17 +113,17 @@ export default function Charts({ data }) {
   const stackedOptions = {
     responsive: true,
     maintainAspectRatio: false,
-    plugins: { legend: { labels: { color: '#e7ecf5' } } },
+    plugins: { legend: { labels: { color: colors.text } } },
     scales: {
-      x: { stacked: true, ticks: { color: '#9aa7bd' }, grid: { color: '#2c374d' } },
-      y: { stacked: true, ticks: { color: '#9aa7bd' }, grid: { color: '#2c374d' } }
+      x: { stacked: true, ticks: { color: colors.tick }, grid: { color: colors.grid } },
+      y: { stacked: true, ticks: { color: colors.tick }, grid: { color: colors.grid } }
     }
   };
 
   const doughnutOptions = {
     responsive: true,
     maintainAspectRatio: false,
-    plugins: { legend: { labels: { color: '#e7ecf5' } } }
+    plugins: { legend: { labels: { color: colors.text } } }
   };
 
   return (
@@ -120,14 +131,14 @@ export default function Charts({ data }) {
       <div className="chart-card">
         <h2>Top 10 países — litros puros de álcool</h2>
         <div className="chart-canvas-wrap">
-          <Bar data={topCountriesData} options={baseOptions('y')} />
+          <Bar data={topCountriesData} options={baseOptions('y', colors)} />
         </div>
       </div>
 
       <div className="chart-card">
         <h2>Distribuição de países por faixa de consumo (litros puros)</h2>
         <div className="chart-canvas-wrap">
-          <Bar data={distributionData} options={baseOptions('x')} />
+          <Bar data={distributionData} options={baseOptions('x', colors)} />
         </div>
       </div>
 

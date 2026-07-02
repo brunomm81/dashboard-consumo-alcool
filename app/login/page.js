@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import AuroraBackground from '@/components/AuroraBackground';
 import GradientText from '@/components/GradientText';
+import ThemeToggle from '@/components/ThemeToggle';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -40,6 +41,7 @@ export default function LoginPage() {
   return (
     <main className="login-screen">
       <AuroraBackground />
+      <ThemeToggle />
       <motion.form
         className="login-card"
         onSubmit={handleSubmit}

@@ -8,6 +8,7 @@ import AnimatedContent from '@/components/AnimatedContent';
 import SpotlightCard from '@/components/SpotlightCard';
 import CountUp from '@/components/CountUp';
 import GradientText from '@/components/GradientText';
+import ThemeToggle from '@/components/ThemeToggle';
 
 export default function Dashboard() {
   const router = useRouter();
@@ -95,6 +96,7 @@ export default function Dashboard() {
           <button className="btn btn-secondary" onClick={handleLogout}>
             Sair
           </button>
+          <ThemeToggle />
         </div>
       </header>
 
