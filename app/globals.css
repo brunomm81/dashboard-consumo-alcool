@@ -12,18 +12,17 @@
 
 * { box-sizing: border-box; }
 
-body {
+html, body {
   margin: 0;
+  padding: 0;
   font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
   background: var(--bg);
   color: var(--text);
   min-height: 100vh;
 }
 
-.hidden { display: none !important; }
-
 /* LOGIN */
-#login-screen {
+.login-screen {
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -41,7 +40,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
 }
 
 .login-card h1 {
@@ -91,6 +90,7 @@ body {
 }
 
 .login-card button:hover { filter: brightness(1.1); }
+.login-card button:disabled { opacity: 0.6; cursor: default; }
 
 .error-msg {
   color: var(--danger);
@@ -142,10 +142,9 @@ body {
 }
 
 .btn-upload:hover { filter: brightness(1.1); }
-
 .btn-secondary:hover { background: var(--border); }
 
-#dashboard-content {
+.dashboard-content {
   padding: 24px 28px 60px;
   max-width: 1400px;
   margin: 0 auto;
@@ -175,16 +174,8 @@ body {
   gap: 6px;
 }
 
-.stat-label {
-  color: var(--text-dim);
-  font-size: 0.8rem;
-}
-
-.stat-value {
-  font-size: 1.4rem;
-  font-weight: 700;
-  color: var(--accent-2);
-}
+.stat-label { color: var(--text-dim); font-size: 0.8rem; }
+.stat-value { font-size: 1.4rem; font-weight: 700; color: var(--accent-2); }
 
 .charts-grid {
   display: grid;
@@ -210,7 +201,7 @@ body {
   font-weight: 600;
 }
 
-.chart-card canvas { flex: 1; max-height: 100%; }
+.chart-canvas-wrap { position: relative; flex: 1; min-height: 0; }
 
 .table-section {
   background: var(--panel);
@@ -219,11 +210,7 @@ body {
   padding: 18px;
 }
 
-.table-section h2 {
-  font-size: 0.95rem;
-  margin: 0 0 12px;
-  color: var(--text-dim);
-}
+.table-section h2 { font-size: 0.95rem; margin: 0 0 12px; color: var(--text-dim); }
 
 .table-wrapper {
   max-height: 420px;
@@ -232,17 +219,8 @@ body {
   border-radius: 8px;
 }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.85rem;
-}
-
-thead {
-  position: sticky;
-  top: 0;
-  background: var(--panel-2);
-}
+table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+thead { position: sticky; top: 0; background: var(--panel-2); }
 
 th, td {
   padding: 8px 12px;
