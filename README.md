@@ -17,29 +17,50 @@ API route no servidor (usando a `service_role`, que nunca é exposta ao navegado
   - Cerveja x Destilados x Vinho nos 10 maiores países
 - Tabela com os dados completos.
 - **Gravação server-side** no Supabase (tabelas `uploads` e `drinks`).
+- **Tema claro/escuro**: botão no canto superior direito (login e dashboard),
+  com persistência em `localStorage` e sem "flash" do tema errado ao carregar.
+- Animações e efeitos visuais (fundo aurora, textos com gradiente, cards com
+  spotlight e números animados).
 
 ## Estrutura
 
 ```
 app/
-  layout.js            Layout raiz + CSS global
-  globals.css          Estilos
+  layout.js            Layout raiz + CSS global + script anti-flash de tema
+  globals.css          Estilos (inclui temas claro/escuro via [data-theme])
   page.js              Redireciona para /login ou /dashboard conforme o cookie
   login/page.js        Tela de login (client)
   dashboard/
     page.js            Server component (revalida o cookie)
     Dashboard.js       UI do dashboard (client): upload, stats, tabela
-    Charts.js          Gráficos (client)
+    Charts.js          Gráficos (client), com cores adaptadas ao tema
   api/
     login/route.js     Valida credenciais e define o cookie httpOnly
     logout/route.js    Encerra a sessão
     upload/route.js    Grava os dados no Supabase (service_role)
+components/
+  ThemeProvider.js     Contexto do tema (estado + persistência em localStorage)
+  ThemeToggle.js       Botão de alternar tema claro/escuro
+  AuroraBackground.js  Fundo animado (tela de login)
+  GradientText.js      Texto com gradiente animado
+  SpotlightCard.js     Card com brilho que segue o cursor
+  CountUp.js           Números animados (contagem)
+  AnimatedContent.js   Entrada animada (fade/slide) de blocos da UI
 lib/
   auth.js              Helpers de autenticação (servidor)
   csv.js               Parser de CSV e normalização (cliente)
   supabaseServer.js    Cliente Supabase server-side (service_role)
 middleware.js          Protege /dashboard e /api/upload
 ```
+
+### Tema claro/escuro
+
+O tema é controlado pelo atributo `data-theme` em `<html>` (`dark` ou `light`),
+com as cores definidas via variáveis CSS em [app/globals.css](app/globals.css).
+Um script inline em `app/layout.js` aplica o tema salvo **antes** da
+hidratação do React, evitando o flash do tema errado. A escolha do usuário
+persiste em `localStorage` (`dashboard_theme`) e os gráficos (Chart.js) leem
+o tema atual via `useTheme()` para recalcular as cores de eixos e legendas.
 
 ## Variáveis de ambiente
 
